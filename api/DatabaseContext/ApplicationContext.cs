@@ -1,9 +1,9 @@
-﻿using DatabaseModels;
+﻿using DatabaseModels.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseContext
 {
-    public class ApplicationDBContext : DbContext
+    public class ApplicationContext : DbContext
     {
         private readonly string _connectionString = """
                                 Host=localhost;
@@ -14,11 +14,18 @@ namespace DatabaseContext
                                 """;
 
         public DbSet<User> Users { get; set; }
+        
         public DbSet<Product> Products { get; set; }
+        
         public DbSet<Order> Orders { get; set; }
+        
         public DbSet<Category> Categories { get; set; }
 
-        public ApplicationDBContext() => Database.EnsureCreated();
+        public ApplicationContext()
+        {
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_connectionString);
     }

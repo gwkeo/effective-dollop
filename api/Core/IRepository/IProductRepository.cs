@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DatabaseModels;
-
+﻿using DatabaseModels.DTOModels;
 namespace Core.IRepository
 {
     public interface IProductRepository
     {
-        List<Product>? GetAsync();
+        Task<List<ProductDTO>?> GetAsync();
 
-        Product? GetAsync(int id); 
+        Task<ProductDTO?> GetAsync(Guid id); 
         
-        void CreateAsync(Product product);
+        Task<Guid> CreateAsync(ProductDTO product);
         
-        void UpdateAsync(int id, Product product);
+        Task UpdateAsync(Guid id, ProductDTO product);
         
-        void DeleteAsync(int id);
+        Task DeleteAsync(Guid id);
     }
 }

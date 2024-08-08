@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DatabaseModels;
+﻿using DatabaseModels.DTOModels;
 
 namespace Core.IRepository
 {
     public interface ICategoryRepository
     {
-        List<Category>? GetAsync();
+        Task<List<CategoryDTO>?> GetAsync();
 
-        Category GetAsync(int id);
+        Task<CategoryDTO?> GetAsync(Guid id);
 
-        void CreateAsync(Category category);
+        Task<Guid> CreateAsync(CategoryDTO category);
 
-        void UpdateAsync(int id, Category category);
+        Task UpdateAsync(Guid id, CategoryDTO category);
         
-        void DeleteAsync(int id);
+        Task DeleteAsync(Guid id);
     }
 }

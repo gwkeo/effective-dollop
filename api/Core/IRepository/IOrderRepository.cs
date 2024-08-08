@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DatabaseModels;
+﻿using DatabaseModels.DTOModels;
 
 namespace Core.IRepository
 {
     public interface IOrderRepository
     {
-        List<Order>? GetAsync();
+        Task<List<OrderDTO>?> GetAsync();
 
-        Order GetAsync(int id);
+        Task<OrderDTO> GetAsync(Guid id);
 
-        void CreateAsync(Order order);
+        Task<Guid> CreateAsync(OrderDTO order);
 
-        void UpdateAsync(int id, Order order);
+        void UpdateAsync(Guid id, OrderDTO order);
 
-        void DeleteAsync(int id);
+        void DeleteAsync(Guid id);
     }
 }

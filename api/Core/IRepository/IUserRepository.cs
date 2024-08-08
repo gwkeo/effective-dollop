@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using DatabaseModels;
-using Microsoft.EntityFrameworkCore;
+﻿using DatabaseModels.DTOModels;
 
 namespace Core.IRepository
 {
     public interface IUserRepository
     {
-        List<User>? GetAsync();
+        Task<List<UserDTO>?> GetAsync();
 
-        User? GetAsync(int id);
+        Task<UserDTO?> GetAsync(Guid id);
 
-        void CreateAsync(User user);
+        Task<Guid> CreateAsync(UserDTO user);
 
-        void UpdateAsync(int id, User updatedUser);
+        Task UpdateAsync(Guid id, UserDTO updatedUser);
 
-        void DeleteAsync(int id);
+        Task DeleteAsync(Guid id);
     }
 }
