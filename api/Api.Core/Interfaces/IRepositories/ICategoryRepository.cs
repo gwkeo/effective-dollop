@@ -1,16 +1,16 @@
-﻿using Api.Core.Entities.DTOModels;
+﻿using Api.Core.Entities.Models;
 
 namespace Api.Core.Interfaces.IRepositories;
 
 public interface ICategoryRepository
 {
-    Task<List<CategoryDTO>?> GetAsync();
+    Task<List<Category>?> GetAsync();
 
-    Task<CategoryDTO?> GetAsync(Guid id);
+    Task<Category?> GetAsync(Guid id);
 
-    Task<Guid> CreateAsync(CategoryDTO category);
+    Task<Guid?> CreateAsync(Category category);
 
-    Task UpdateAsync(Guid id, CategoryDTO updatedCategory);
+    Task UpdateAsync(Category updatedCategory);
     
-    Task DeleteAsync(Guid id);
+    Task DeleteAsync(Category category);
 }

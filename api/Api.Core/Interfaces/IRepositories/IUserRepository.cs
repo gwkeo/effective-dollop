@@ -1,17 +1,17 @@
-﻿using Api.Core.Entities.DTOModels;
+﻿using Api.Core.Entities.Models;
 
 namespace Api.Core.Interfaces.IRepositories
 {
     public interface IUserRepository
     {
-        Task<List<UserDTO>?> GetAsync();
+        Task<List<User>?> GetAsync();
 
-        Task<UserDTO?> GetAsync(Guid id);
+        Task<User?> GetAsync(Guid id);
 
-        Task<Guid> CreateAsync(UserDTO user);
+        Task<Guid> CreateAsync(User user);
 
-        Task UpdateAsync(Guid id, UserDTO updatedUser);
+        Task UpdateAsync(User updatedUser);
 
-        Task DeleteAsync(Guid id);
+        Task DeleteAsync(User user);
     }
 }

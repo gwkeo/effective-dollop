@@ -4,9 +4,9 @@ namespace Api.Core.Interfaces.IServices;
 
 public interface IProductService
 {
-    Task<Guid> Create(ProductDTO productDTO);
+    Task<Guid> Create(ProductDTO productDto);
     Task<List<ProductDTO>> Read();
     Task<ProductDTO> ReadById(Guid id);
-    Task Update(Guid id, ProductDTO productDTO);
+    Task Update(Guid id, ProductDTO productDto);
     Task Delete(Guid id);
 }

@@ -1,17 +1,17 @@
-﻿using Api.Core.Entities.DTOModels;
+﻿using Api.Core.Entities.Models;
 
 namespace Api.Core.Interfaces.IRepositories
 {
     public interface IProductRepository
     {
-        Task<List<ProductDTO>?> GetAsync();
+        Task<List<Product>?> GetAsync();
 
-        Task<ProductDTO?> GetAsync(Guid id); 
+        Task<Product?> GetAsync(Guid id); 
         
-        Task<Guid> CreateAsync(ProductDTO product);
+        Task<Guid> CreateAsync(Product product);
         
-        Task UpdateAsync(Guid id, ProductDTO newProduct);
+        Task UpdateAsync(Product newProduct);
         
-        Task DeleteAsync(Guid id);
+        Task DeleteAsync(Product product);
     }
 }

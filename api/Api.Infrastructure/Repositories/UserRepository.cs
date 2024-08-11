@@ -1,6 +1,6 @@
 using Api.Infrastructure.Data;
 using Api.Core.Interfaces.IRepositories;
-using Api.Core.Entities.DTOModels;
+using Api.Core.Entities.Models;
 using Api.Core.Converters;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,34 +9,27 @@ namespace Api.Infrastructure.Repositories;
 public class UserRepository(ApplicationContext context) : IUserRepository
 {
     private readonly ApplicationContext _context = context;
-    public async Task<List<UserDTO>?> GetAsync()
+    public async Task<List<User>?> GetAsync()
     {
-        var userEntities = await _context.Users.ToListAsync();
-        List<UserDTO> users = UserConverter.ConvertList(userEntities);
-        return users;
+        return await _context.Users.ToListAsync();
     }
-    public async Task<UserDTO?> GetAsync(Guid id)
+    
+    public async Task<User?> GetAsync(Guid id)
     {
-        var userEntity = await _context.Users.FirstOrDefaultAsync(x => x.Id == id) ?? throw new ArgumentException("Пользователь не найден");
-        
-        UserDTO user = UserConverter.Convert(userEntity);
-        return user;
+        return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<Guid> CreateAsync(UserDTO user)
+    public async Task<Guid> CreateAsync(User user)
     {
-        var newUser = UserConverter.Convert(user);
-        await _context.Users.AddAsync(newUser);
+        await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
         return user.Id;
     }
 
-    public async Task UpdateAsync(Guid id, UserDTO updatedUser)
+    public async Task UpdateAsync(User updatedUser)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id) ?? throw new ArgumentException("Пользователь не найден");
-
         await _context.Users
-            .Where(x => x.Id == id)
+            .Where(x => x.Id == updatedUser.Id)
             .ExecuteUpdateAsync(x => x
                 .SetProperty(y => y.Email, updatedUser.Email)
                 .SetProperty(y => y.Name, updatedUser.Name)
@@ -45,10 +38,8 @@ public class UserRepository(ApplicationContext context) : IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(User user)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id) ?? throw new ArgumentException("Пользователь не найден");
-
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
     }

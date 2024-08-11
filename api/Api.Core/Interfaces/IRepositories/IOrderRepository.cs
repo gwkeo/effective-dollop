@@ -1,17 +1,18 @@
 ﻿using Api.Core.Entities.DTOModels;
+using Api.Core.Entities.Models;
 
 namespace Api.Core.Interfaces.IRepositories
 {
     public interface IOrderRepository
     {
-        Task<List<OrderDTO>?> GetAsync();
+        Task<List<Order>?> GetAsync();
 
-        Task<OrderDTO> GetAsync(Guid id);
+        Task<Order?> GetAsync(Guid id);
 
-        Task<Guid> CreateAsync(OrderDTO order);
+        Task<Guid> CreateAsync(Order order);
 
-        void UpdateAsync(Guid id, OrderDTO updatedOrder);
+        Task UpdateAsync(Order updatedOrder);
 
-        void DeleteAsync(Guid id);
+        Task DeleteAsync(Order order);
     }
 }

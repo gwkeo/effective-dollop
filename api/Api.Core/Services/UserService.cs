@@ -1,38 +1,46 @@
-﻿using Api.Core.Entities.DTOModels;
+﻿using System.Data;
+using Api.Core.Converters;
+using Api.Core.Entities.DTOModels;
 using Api.Core.Interfaces.IServices;
 using Api.Core.Interfaces.IRepositories;
 
 namespace Api.Core.Services;
 
-public class UserService : IUserService
+public class UserService(IUserRepository repo) : IUserService
 {
-    private readonly IUserRepository _repo;
-    public async Task<Guid> Create(UserDTO user) => await _repo.CreateAsync(user);
+    private readonly IUserRepository _repo = repo;
+
+    public async Task<Guid> Create(UserDTO user)
+    {
+        var newUser = UserConverter.Convert(user);
+        return await _repo.CreateAsync(newUser);
+    }
 
     public async Task Delete(Guid id)
     {
-        try
-        {
-            await _repo.DeleteAsync(id);
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException(ex.Message);
-        }
+        var user = await _repo.GetAsync(id) ?? throw new ArgumentException("Пользователь не найден");
+        await _repo.DeleteAsync(user);
     }
 
-    public Task<List<UserDTO>> Read()
+    public async Task<List<UserDTO>> Read()
     {
-        throw new NotImplementedException();
+        var users = await _repo.GetAsync() ?? throw new Exception("Список пользователей пуст");
+        var result = UserConverter.ConvertList(users);
+        return result;
     }
 
-    public Task<UserDTO> ReadById(Guid id)
+    public async Task<UserDTO> ReadById(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await _repo.GetAsync(id) ?? throw new ArgumentException("Пользователь не найден");
+        var result = UserConverter.Convert(user);
+        return result;
     }
 
-    public Task Update(Guid id, UserDTO updatedUser)
+    public async Task Update(Guid id, UserDTO updatedUserDto)
     {
-        throw new NotImplementedException();
+        var user = await _repo.GetAsync(id) ?? throw new ArgumentException("Пользователь не найден");
+        var updatedUser = UserConverter.Convert(updatedUserDto);
+        updatedUser.Id = id;
+        await _repo.UpdateAsync(updatedUser);
     }
 }
